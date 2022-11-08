@@ -18,11 +18,6 @@ public class SubscriptionController {
             List<Order> orders = getNewOrdersFromDB(orderId);
             Flux<Order> orderFlux = Flux.fromIterable(orders);
             synchronousSink.next(orderFlux);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e.getMessage(), e);
-            }
             if(orders.isEmpty())
                 return orderId;
             else
@@ -38,6 +33,11 @@ public class SubscriptionController {
             System.out.println("New Order: "+order);
         }else{
             System.out.println("No Orders Found");
+        }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e.getMessage(), e);
         }
         return orders;
     }
